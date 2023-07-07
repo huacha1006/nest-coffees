@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Coffee } from '../coffee.entity';
-@Entity()
+@Entity() //声明是一个实体类
 export class Flavor {
   @PrimaryGeneratedColumn()
   id: string;
