@@ -21,16 +21,22 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto/paginati
 import { Public } from 'src/common/decorators/public.decorator';
 import { WrapResponseInterceptor } from 'src/common/interceptors/wrap-response/wrap-response.interceptor';
 import { ParseIntPipe } from 'src/common/pipes/parse-int/parse-int.pipe';
+import { Protocol } from 'src/common/decorators/protocol.decorator';
+import { ApiResponse } from '@nestjs/swagger';
 
 @UsePipes(ValidationPipe)
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
 
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Public()
   @UseInterceptors(WrapResponseInterceptor)
   @Get()
-  findAll(@Query() paginationQuery: PaginationQueryDto) {
+  findAll(
+    @Protocol('https') protocol: string,
+    @Query() paginationQuery: PaginationQueryDto,
+  ) {
     const { limit, offset } = paginationQuery;
     return this.coffeesService.findAll(paginationQuery);
   }
