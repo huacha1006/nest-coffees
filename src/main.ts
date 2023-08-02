@@ -6,9 +6,18 @@ import { ApiKeyGuard } from './common/guards/api-key/api-key.guard';
 import { WrapResponseInterceptor } from './common/interceptors/wrap-response/wrap-response.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout/timeout.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(
+    session({
+      secret: 'xiaoyu',
+      rolling: true,
+      name: 'xiaoyu.sid',
+      cookie: { maxAge: 1000 * 60 },
+    }),
+  );
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

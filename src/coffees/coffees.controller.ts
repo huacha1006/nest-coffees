@@ -13,6 +13,8 @@ import {
   UsePipes,
   ValidationPipe,
   UseInterceptors,
+  Ip,
+  Headers,
 } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
@@ -37,8 +39,11 @@ export class CoffeesController {
   findAll(
     @Protocol('https') protocol: string,
     @Query() paginationQuery: PaginationQueryDto,
+    @Ip() ip: string,
+    @Headers() header: any,
   ) {
     const { limit, offset } = paginationQuery;
+    console.log(`ip是${ip}`, header);
     return this.coffeesService.findAll(paginationQuery);
   }
 
