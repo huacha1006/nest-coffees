@@ -9,6 +9,7 @@ import {
   Res,
   Req,
   Session,
+  Inject,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -19,7 +20,17 @@ import session from 'express-session';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    @Inject('Test') private readonly shop: string[],
+    @Inject('Config') private readonly base: { baseUrl: string },
+  ) {}
+
+  @Public()
+  @Get()
+  findAll() {
+    return this.base;
+  }
 
   @Public()
   @Get('code')

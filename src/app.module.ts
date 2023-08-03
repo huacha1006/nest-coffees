@@ -11,6 +11,7 @@ import appConfig from './config/app.config';
 import { APP_PIPE } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
 import { UserModule } from './user/user.module';
+import { ConfigModule as ConfigM } from './config/config.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { UserModule } from './user/user.module';
     CoffeeRatingModule,
     CommonModule,
     UserModule,
+    ConfigM.forRoot({ path: '/hello' }),
   ],
   controllers: [AppController],
   providers: [
