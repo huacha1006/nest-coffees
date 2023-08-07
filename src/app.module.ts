@@ -12,6 +12,8 @@ import { APP_PIPE } from '@nestjs/core';
 import { CommonModule } from './common/common.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule as ConfigM } from './config/config.module';
+import { UploadModule } from './upload/upload.module';
+import { SpiderModule } from './spider/spider.module';
 
 @Module({
   imports: [
@@ -35,6 +37,8 @@ import { ConfigModule as ConfigM } from './config/config.module';
     CommonModule,
     UserModule,
     ConfigM.forRoot({ path: '/hello' }),
+    UploadModule,
+    SpiderModule,
   ],
   controllers: [AppController],
   providers: [

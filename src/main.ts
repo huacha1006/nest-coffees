@@ -7,9 +7,14 @@ import { WrapResponseInterceptor } from './common/interceptors/wrap-response/wra
 import { TimeoutInterceptor } from './common/interceptors/timeout/timeout.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as session from 'express-session';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.useStaticAssets(join(__dirname, 'images'), {
+    prefix: '/xiaoyu',
+  });
   app.use(
     session({
       secret: 'xiaoyu',
