@@ -2,11 +2,25 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as svgCaptcha from 'svg-captcha';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository, Like } from 'typeorm';
 
 @Injectable()
 export class UserService {
+  constructor(
+    @InjectRepository(User) private readonly user: Repository<User>,
+  ) {}
+
+  // 新增一个用户
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    const data = new User();
+    data.name = createUserDto.name;
+    data.phone = createUserDto.phone;
+    data.age = createUserDto.age;
+    data.sex = createUserDto.sex;
+    console.log(data);
+    return this.user.save(data);
   }
 
   // 创建验证码
@@ -21,8 +35,13 @@ export class UserService {
     return captcha;
   }
 
-  findAll() {
-    return `This action returns all user`;
+  findAll(query: { keyWord: string }) {
+    console.log(query, query.keyWord);
+    return this.user.find({
+      where: {
+        name: Like(`%${query.keyWord}%`),
+      },
+    });
   }
 
   findOne(id: number) {

@@ -10,9 +10,10 @@ import {
   Req,
   Session,
   Inject,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, LoginUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as svgCaptcha from 'svg-captcha';
 import { Public } from 'src/common/decorators/public.decorator';
@@ -28,8 +29,8 @@ export class UserController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.base;
+  findAll(@Query() query: { keyWord: string }) {
+    return this.userService.findAll(query);
   }
 
   @Public()
@@ -44,7 +45,7 @@ export class UserController {
 
   @Public()
   @Post('create')
-  create(@Body() createUserDto: CreateUserDto, @Session() session) {
+  login(@Body() createUserDto: LoginUserDto, @Session() session) {
     console.log(createUserDto, session);
     const requestCode = createUserDto.code.toLocaleLowerCase();
     const code = session.code.toLocaleLowerCase();
@@ -59,6 +60,12 @@ export class UserController {
         message: '验证码错误',
       };
     }
+  }
+
+  @Public()
+  @Post()
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 
   @Get(':id')

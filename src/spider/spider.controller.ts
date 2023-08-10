@@ -13,7 +13,9 @@ import { UpdateSpiderDto } from './dto/update-spider.dto';
 import axios from 'axios';
 import { Public } from 'src/common/decorators/public.decorator';
 import * as cheerio from 'cheerio';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('爬虫')
 @Controller('spider')
 export class SpiderController {
   constructor(private readonly spiderService: SpiderService) {}

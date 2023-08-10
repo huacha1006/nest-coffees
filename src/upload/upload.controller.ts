@@ -18,7 +18,9 @@ import { Public } from 'src/common/decorators/public.decorator';
 import { Response } from 'express';
 import { join } from 'path';
 import { zip } from 'compressing';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('上传')
 @Controller('upload')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
