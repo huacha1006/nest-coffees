@@ -35,13 +35,25 @@ export class UserService {
     return captcha;
   }
 
-  findAll(query: { keyWord: string }) {
+  async findAll(query: { keyWord: string; pageSize: number; current: number }) {
     console.log(query, query.keyWord);
-    return this.user.find({
+    const data = await this.user.find({
+      where: {
+        name: Like(`%${query.keyWord}%`),
+      },
+      skip: (query.current - 1) * query.pageSize,
+      take: query.pageSize,
+    });
+    const total = await this.user.count({
       where: {
         name: Like(`%${query.keyWord}%`),
       },
     });
+
+    return {
+      data,
+      total,
+    };
   }
 
   findOne(id: number) {
@@ -49,10 +61,11 @@ export class UserService {
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+    console.log(id, updateUserDto);
+    return this.user.update(id, updateUserDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.user.delete(id);
   }
 }

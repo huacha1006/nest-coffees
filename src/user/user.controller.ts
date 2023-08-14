@@ -29,7 +29,9 @@ export class UserController {
 
   @Public()
   @Get()
-  findAll(@Query() query: { keyWord: string }) {
+  findAll(
+    @Query() query: { keyWord: string; pageSize: number; current: number },
+  ) {
     return this.userService.findAll(query);
   }
 
@@ -73,11 +75,13 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
+  @Public()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
+  @Public()
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
