@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGuardDto } from './dto/create-guard.dto';
 import { UpdateGuardDto } from './dto/update-guard.dto';
-
+import { ApiException } from '../common/filters/http-exception/api.exception';
+import { ApiErrorCode } from '../common/enums/api-error-code.enum';
 @Injectable()
 export class GuardService {
   create(createGuardDto: CreateGuardDto) {
+    throw new ApiException('用户不存在', ApiErrorCode.USER_NOTEXIST);
     return 'This action adds a new guard';
   }
 

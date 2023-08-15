@@ -15,6 +15,8 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, 'images'), {
     prefix: '/xiaoyu',
   });
+
+  /** session配置 */
   app.use(
     session({
       secret: 'xiaoyu',
@@ -23,6 +25,8 @@ async function bootstrap() {
       cookie: { maxAge: 1000 * 60 },
     }),
   );
+
+  /** 全局报错管道 */
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -34,9 +38,17 @@ async function bootstrap() {
     }),
   );
   // app.useGlobalGuards(new ApiKeyGuard());
-  app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalInterceptors(new TimeoutInterceptor());
 
+  /**  过滤器 */
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  /** 拦截器 */
+  app.useGlobalInterceptors(
+    new TimeoutInterceptor(),
+    new WrapResponseInterceptor(),
+  );
+
+  /** swagger文档 */
   const options = new DocumentBuilder()
     .setTitle('Iluvcoffee')
     .setDescription('Coffee application')

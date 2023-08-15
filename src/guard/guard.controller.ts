@@ -21,6 +21,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class GuardController {
   constructor(private readonly guardService: GuardService) {}
 
+  @Public()
   @Post()
   create(@Body() createGuardDto: CreateGuardDto) {
     return this.guardService.create(createGuardDto);
