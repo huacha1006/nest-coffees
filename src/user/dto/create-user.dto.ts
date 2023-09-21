@@ -18,17 +18,9 @@ export class LoginUserDto {
 export class CreateUserDto {
   @ApiProperty({ description: '账号' })
   @IsString()
-  readonly name: string;
+  readonly username: string;
 
-  @ApiProperty({ description: '手机号' })
+  @ApiProperty({ description: '密码' })
   @IsString()
-  readonly phone: string;
-
-  @ApiProperty({ description: '年龄' })
-  @IsNumber()
-  readonly age: number;
-
-  @ApiProperty({ description: '手机号' })
-  @IsNumber()
-  readonly sex: number;
+  readonly password: string;
 }

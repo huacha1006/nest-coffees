@@ -35,6 +35,7 @@ export class UserController {
     return this.userService.findAll(query);
   }
 
+  // 获取登陆验证码
   @Public()
   @Get('code')
   createCode(@Req() req, @Res() res, @Session() session) {
@@ -45,6 +46,7 @@ export class UserController {
     res.send(code.data);
   }
 
+  // 登陆
   @Public()
   @Post('create')
   login(@Body() createUserDto: LoginUserDto, @Session() session) {
@@ -65,14 +67,14 @@ export class UserController {
   }
 
   @Public()
-  @Post()
+  @Post('register')
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
   }
 
   @Public()

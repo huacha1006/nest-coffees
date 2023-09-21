@@ -15,6 +15,7 @@ import { ConfigModule as ConfigM } from './config/config.module';
 import { UploadModule } from './upload/upload.module';
 import { SpiderModule } from './spider/spider.module';
 import { GuardModule } from './guard/guard.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { GuardModule } from './guard/guard.module';
         database: process.env.DATABASE_NAME,
         autoLoadEntities: true,
         synchronize: true,
-        charset: 'utf8mb4',
+        charset: 'utf8',
       }),
     }),
     ConfigModule.forRoot({
@@ -42,6 +43,7 @@ import { GuardModule } from './guard/guard.module';
     UploadModule,
     SpiderModule,
     GuardModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

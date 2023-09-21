@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as svgCaptcha from 'svg-captcha';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository, Like } from 'typeorm';
+import { ApiException } from 'src/common/filters/http-exception/api.exception';
+import { ApiErrorCode } from 'src/common/enums/api-error-code.enum';
+import { error } from 'console';
 
 @Injectable()
 export class UserService {
@@ -13,14 +16,23 @@ export class UserService {
   ) {}
 
   // 新增一个用户
-  create(createUserDto: CreateUserDto) {
-    const data = new User();
-    data.name = createUserDto.name;
-    data.phone = createUserDto.phone;
-    data.age = createUserDto.age;
-    data.sex = createUserDto.sex;
-    console.log(data);
-    return this.user.save(data);
+  async create(createUserDto: CreateUserDto) {
+    const { username } = createUserDto;
+    const existUser = await this.user.findOne({
+      where: { username },
+    });
+
+    if (existUser) {
+      throw new ApiException('用户已存在', ApiErrorCode.USER_NOTEXIST);
+    }
+
+    try {
+      const newUser = await this.user.create(createUserDto);
+      await this.user.save(newUser);
+      return '注册成功';
+    } catch (err) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   // 创建验证码
@@ -56,8 +68,13 @@ export class UserService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(username: string) {
+    const user = await this.user.findOne({
+      where: { username },
+    });
+
+    if (!user) throw new HttpException('用户名不存在', HttpStatus.BAD_REQUEST);
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

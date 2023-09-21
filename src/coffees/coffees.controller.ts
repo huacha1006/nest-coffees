@@ -32,7 +32,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
 
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  // @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Public()
   @UseInterceptors(WrapResponseInterceptor)
   @Get()
