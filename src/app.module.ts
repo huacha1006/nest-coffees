@@ -16,6 +16,7 @@ import { UploadModule } from './upload/upload.module';
 import { SpiderModule } from './spider/spider.module';
 import { GuardModule } from './guard/guard.module';
 import { AuthModule } from './auth/auth.module';
+import { PermissionModule } from './permission/permission.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { AuthModule } from './auth/auth.module';
     SpiderModule,
     GuardModule,
     AuthModule,
+    PermissionModule,
   ],
   controllers: [AppController],
   providers: [
