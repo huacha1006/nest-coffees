@@ -42,7 +42,7 @@ export class UserService {
       fontSize: 50, //文字大小
       width: 100, //宽度
       height: 34, //高度
-      background: '#cc9966', //背景颜色
+      background: 'white', //背景颜色
     });
     return captcha;
   }
